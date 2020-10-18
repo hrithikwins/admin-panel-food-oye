@@ -10,6 +10,9 @@ export const ContentsList = () => {
     const [tempContent, setTempContent] = useState([]);
     const [password, setPassword] = useState([]);
 
+    let nameInput = "hop";
+
+    // axios functions
     function fetchAllUser() {
 
         axios.get('http://localhost:5000/users/')
@@ -22,13 +25,13 @@ export const ContentsList = () => {
                 console.log(error);
             })
     }
-    function getContentByUsername(usernameInput) {
-        axios.get('http://localhost:5000/contents/find/'+usernameInput)
+    function getContentByUsername() {
+        axios.get(`http://localhost:5000/contents/find/${nameInput}`)
             .then(res => {
                 if (res.data.length > 0) {
                     setTempContent(res.data.map(cont => cont.userData));
                     console.log(res.data.map(cont => cont.userData));
-                }else { setTempContent(["No Data Available"])}
+                } else { setTempContent(["No Data Available"]) }
             })
             .catch((error) => {
                 console.log(error);
@@ -40,22 +43,10 @@ export const ContentsList = () => {
     }, []);
 
     const UserContentDataList = () => {
-        return(
-
-            <Typography
-                variant="h5"
-            >List of Contents Provided
-
-                <Button
-                    variant="contained"
-                    color="secondary"
-                >
-                    Refresh
-                                </Button>
-                {tempContent.map((temp) =>
-                    <div>{temp.map((results) => <div>{results}</div>)}</div>
-                )}
-            </Typography>
+        return (
+            tempContent.map((temp) =>
+                <div>{temp.map((results) => <div>{results}</div>)}</div>
+            )
         )
     }
 
@@ -90,10 +81,21 @@ export const ContentsList = () => {
                             </Grid>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <UserContentDataList />
-                            <Typography>
 
-                            </Typography>
+                            <Typography
+                                variant="h5"
+                            >List of Contents Provided
+
+                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => getContentByUsername()}
+                                >
+                                    Refresh
+                                </Button>
+                            </Typography> <br />
+                            <UserContentDataList />
+
                         </AccordionDetails>
                     </Accordion>
                 </>
