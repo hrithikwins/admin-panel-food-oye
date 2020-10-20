@@ -35,6 +35,13 @@ export const CreateUser = () => {
         axios.post('http://localhost:5000/users/add', userData)
             .then(res => {
                 console.log(res.data);
+                setAlertOpen(true);
+                setTimeout(() => {
+                    setAlertOpen(false);
+                    setUsername('');
+                    setPassword('');
+                    setPhoneNumber();
+                }, 4000);
             })
             .catch(err => console.log(err))
 
@@ -46,14 +53,6 @@ export const CreateUser = () => {
             .catch(err => console.log(err))
 
         // once user is added, notify the admin of the act & clear all fields
-
-        setAlertOpen(true);
-        setTimeout(() => {
-            setAlertOpen(false);
-            setUsername('');
-            setPassword('');
-            setPhoneNumber();
-        }, 4000);
 
     }
     const checkboxToggle = () => {
